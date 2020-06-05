@@ -5,7 +5,7 @@ module.exports = {
   mode: 'development',
 
   entry: {
-    bootstrap: './src/bootstrap.ts'
+    bootstrap: CONFIG.SRC_DIR + 'bootstrap.ts'
   },
 
   output: {

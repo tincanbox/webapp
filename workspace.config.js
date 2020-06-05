@@ -7,4 +7,3 @@ module.exports = {
   ASSET_GLOB_STYLE: "**/*.{scss,sass,css}"
 
 };
-

@@ -44,7 +44,7 @@ gulp.task("server", (cb) => {
 gulp.task('watch', gulp.series(
   (cb) => {
     // watching .ts, .js files
-    gulp.watch([CONFIG.SRC_DIR + CONFIG.ASSET_GLOB_SCRIPT], gulp.series('bundle'));
+    gulp.watch([CONFIG.SRC_DIR + CONFIG.ASSET_GLOB_SCRIPT], gulp.series('bundle-webpack'));
     // watching .scss, .sass, .css files
     gulp.watch([CONFIG.SRC_DIR + CONFIG.ASSET_GLOB_STYLE], gulp.series('bundle-style'));
     return cb();
@@ -53,21 +53,13 @@ gulp.task('watch', gulp.series(
 
 //---------------------------------------------------
 
-gulp.task('run-webpack', gulp.series(() => {
+gulp.task('bundle-webpack', gulp.series(() => {
   return new Promise( (res, rej) => {
     webpack_stream(webpack_config, webpack)
       .on('end', res)
       .on('error', rej)
       .pipe(gulp.dest(CONFIG.DIST_DIR))
   });
-}));
-
-// WEBPACK bundling
-gulp.task('bundle-script', gulp.series((done) => {
-  return gulp.src(CONFIG.SRC_DIR + CONFIG.ASSET_GLOB_SCRIPT)
-    .pipe(webpack_stream(webpack_config, webpack))
-    .on('error', function error_handler() { this.emit('end'); }) // DONT use ()=>{} syntax to keep scope.
-    .pipe(gulp.dest(CONFIG.DIST_DIR))
 }));
 
 // Handling style-related files.
@@ -86,5 +78,6 @@ gulp.task('bundle-style', gulp.series(
 );
 
 //---------------------------------------------------
-gulp.task('build', gulp.series(gulp.parallel('bundle-script', 'bundle-style')));
+
+gulp.task('build', gulp.series(gulp.parallel('bundle-webpack', 'bundle-style')));
 gulp.task('default', gulp.series('clean', 'build', 'watch'));
