@@ -10,11 +10,19 @@ module.exports = {
   build: {
 
     // Adjust src/dist path accordingly.
-    SRC_DIR: "src",
+    ENTRY: {
+      "bootstrap": "src/bootstrap.ts"
+    },
     DIST_DIR: "dist",
 
-    ASSET_GLOB_SCRIPT: "**/*.{ts,js}",
-    ASSET_GLOB_STYLE: "**/*.{scss,sass,css}"
+    EXCLUDE: [
+      'vendor'
+    ],
+
+    ASSET_GLOB: {
+      STYLE: "**/*.{scss,sass,css}",
+      SCRIPT: "**/*.{ts,js}",
+    }
 
   }
 

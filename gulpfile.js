@@ -35,20 +35,22 @@ function bind_config(type, ...cbs){
   }));
 }
 
+function generate_src_list(C, glob_type){
+  return (Object.keys(C.build.ENTRY).map((k) => {
+      return (path.dirname(C.build.ENTRY[k]) + (glob_type ? ("/" + C.build.ASSET_GLOB[glob_type.toUpperCase()]) : ""));
+    })).concat(C.build.EXCLUDE.map((r) => ('!' + r))).filter(r => r);
+}
+
 // fetch command line arguments
-const arg = (argList => {
-  let arg = {}, a, opt, thisOpt, curOpt;
-  for (a = 0; a < argList.length; a++) {
-    thisOpt = argList[a].trim();
-    opt = thisOpt.replace(/^\-+/, '');
-    if (opt === thisOpt) {
-      // argument value
-      if (curOpt) arg[curOpt] = opt;
-      curOpt = null;
-    } else {
-      // argument name
-      curOpt = opt;
-      arg[curOpt] = true;
+const arg = (li => {
+  let arg = {}, a, opt, ori, cur;
+  for (a = 0; a < li.length; a++) {
+    ori = li[a].trim(); opt = ori.replace(/^\-+/, '');
+    if (opt === ori) { // argument value
+      if (cur) arg[cur] = opt;
+      cur = null;
+    } else { // argument name
+      arg[(cur = opt)] = true;
     }
   }
   return arg;
@@ -77,9 +79,9 @@ gulp.task("server", bind_config("series",
 
 gulp.task('watch', bind_config("series",
   (C) => {
-    gulp.watch([C.build.SRC_DIR + path.sep + C.build.ASSET_GLOB_SCRIPT], gulp.series('bundle-webpack'));
+    gulp.watch(generate_src_list(C, 'script'), gulp.series('bundle-webpack'));
     // watching .scss, .sass, .css files
-    gulp.watch([C.build.SRC_DIR + path.sep + C.build.ASSET_GLOB_STYLE], gulp.series('bundle-style'));
+    gulp.watch(generate_src_list(C, 'style'), gulp.series('bundle-style'));
   })
 );
 
@@ -90,17 +92,18 @@ gulp.task('watch', bind_config("series",
 gulp.task('bundle-webpack', bind_config("parallel",
   (C, res, rej) => {
     let wcf = webpack_config_factory(arg);
-    return gulp.src(C.build.SRC_DIR)
-      .pipe(webpack_stream(wcf, null, (err, stats) => { if(err) console.error(err); }))
+    return gulp.src(generate_src_list(C))
+      .pipe(webpack_stream(wcf))
       .pipe(gulp.dest(C.build.DIST_DIR))
   })
 );
 
 // Handling style-related files.
+// Disable this if you want to use Webpack as the sass-bundler.
 gulp.task('bundle-style', bind_config("parallel",
   (C, res, rej) => {
     // transcompiling and minifying a SCSS files.
-    return gulp.src(C.build.SRC_DIR + "/" + C.build.ASSET_GLOB_STYLE)
+    return gulp.src(generate_src_list(C, 'style'))
       .pipe(gulp_debug())
       .pipe(gulp_sourcemaps.init())
       .pipe(gulp_sass())

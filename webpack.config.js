@@ -4,14 +4,19 @@ const C = (() => {
   return require("./workspace.config.js");
 })();
 
-module.exports = {
+let exclude_reg_list = C.build.EXCLUDE.map((ex) => new RegExp(ex));
+
+let conf = {
 
   mode: 'development',
 
-  entry: {
-    bootstrap: path.resolve(__dirname, C.build.SRC_DIR + path.sep + 'bootstrap.ts')
-    // Add more entries below.
-  },
+  entry: (() => {
+    let entries = {};
+    for(let k in C.build.ENTRY){
+      entries[k] = path.resolve(__dirname, C.build.ENTRY[k])
+    }
+    return entries;
+  })(),
 
   output: {
     path: path.resolve(__dirname, C.build.DIST_DIR),
@@ -19,9 +24,10 @@ module.exports = {
   },
 
   resolve: {
-    modules: [
-      __dirname + path.sep + C.build.SRC_DIR
-    ],
+    modules: Object.keys(C.build.ENTRY).map((k) => {
+      let r = C.build.ENTRY[k];
+      return path.resolve(__dirname, r);
+    }),
     extensions: [
       '.ts', '.tsx', '.js'
     ]
@@ -33,9 +39,19 @@ module.exports = {
 
   module: {
     rules: [
+      //{
+      //  test: /\.s[ac]ss$/i,
+      //  use: [
+      //    // Creates `style` nodes from JS strings
+      //    'style-loader',
+      //    'css-loader',
+      //    // Compiles Sass to CSS
+      //    'sass-loader',
+      //  ],
+      //},
       {
         test: /\.vue$/,
-        exclude: [/node_modules/],
+        exclude: [/node_modules/].concat(exclude_reg_list),
         use: [
           { loader: 'vue-loader' },
           { loader: 'vue-style-loader' }
@@ -43,7 +59,7 @@ module.exports = {
       },
       {
         test: /\.ts(x?)$/,
-        exclude: [/node_modules/],
+        exclude: [/node_modules/].concat(exclude_reg_list),
         use: [
           {
             loader: 'babel-loader',
@@ -65,7 +81,7 @@ module.exports = {
       },
       {
         test: /\.js$/,
-        exclude: [/node_modules/],
+        exclude: [/node_modules/].concat(exclude_reg_list),
         use: [
           {
             loader: 'babel-loader',
@@ -85,3 +101,5 @@ module.exports = {
 
   }
 }
+
+module.exports = conf;

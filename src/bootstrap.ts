@@ -1,4 +1,4 @@
-import 'asset/script/main';
+import './asset/script/main';
 
 class __bootstrap {
 
