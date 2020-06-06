@@ -15,8 +15,12 @@ module.exports = {
     },
     DIST_DIR: "dist",
 
+    // Gulp-GLOB and Webpack.exclude, both uses this.
     EXCLUDE: [
-      'vendor'
+      'node_modules',
+      'vendor',
+      'log',
+      'cache'
     ],
 
     ASSET_GLOB: {

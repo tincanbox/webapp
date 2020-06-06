@@ -51,7 +51,7 @@ let conf = {
       //},
       {
         test: /\.vue$/,
-        exclude: [/node_modules/].concat(exclude_reg_list),
+        exclude: [].concat(exclude_reg_list),
         use: [
           { loader: 'vue-loader' },
           { loader: 'vue-style-loader' }
@@ -59,7 +59,7 @@ let conf = {
       },
       {
         test: /\.ts(x?)$/,
-        exclude: [/node_modules/].concat(exclude_reg_list),
+        exclude: [].concat(exclude_reg_list),
         use: [
           {
             loader: 'babel-loader',
@@ -81,7 +81,7 @@ let conf = {
       },
       {
         test: /\.js$/,
-        exclude: [/node_modules/].concat(exclude_reg_list),
+        exclude: [].concat(exclude_reg_list),
         use: [
           {
             loader: 'babel-loader',
