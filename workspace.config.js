@@ -10,8 +10,10 @@ module.exports = {
   build: {
 
     // Adjust src/dist path accordingly.
+    // bootstrap: "src" means...
+    // glob(./src/*.js),or .ts is an entry point.
     ENTRY: {
-      "bootstrap": "src/bootstrap.ts"
+      "bootstrap": "./src"
     },
     DIST_DIR: "dist",
 

@@ -37,7 +37,7 @@ function bind_config(type, ...cbs){
 
 function generate_src_list(C, glob_type){
   return (Object.keys(C.build.ENTRY).map((k) => {
-      return (path.dirname(C.build.ENTRY[k]) + (glob_type ? ("/" + C.build.ASSET_GLOB[glob_type.toUpperCase()]) : ""));
+      return (C.build.ENTRY[k] + (glob_type ? ("/" + C.build.ASSET_GLOB[glob_type.toUpperCase()]) : ""));
     })).concat(C.build.EXCLUDE.map((r) => ('!' + r))).filter(r => r);
 }
 

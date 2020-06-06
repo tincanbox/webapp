@@ -1,4 +1,5 @@
 const path = require('path');
+const glob = require('glob');
 
 const C = (() => {
   return require("./workspace.config.js");
@@ -13,8 +14,13 @@ let conf = {
   entry: (() => {
     let entries = {};
     for(let k in C.build.ENTRY){
-      entries[k] = path.resolve(__dirname, C.build.ENTRY[k])
+      let pts = glob.sync(C.build.ENTRY[k] + "/*.{js,ts}");
+      for(let p of pts){
+        let pinf = path.parse(p);
+        entries[pinf.name] = p;
+      }
     }
+    console.log("Target Entries: ", entries);
     return entries;
   })(),
 
