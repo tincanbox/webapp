@@ -1,8 +1,12 @@
+import 'asset/script/main';
+
 class __bootstrap {
 
-  constructor(){
-  }
+  something: string;
 
+  constructor(){
+    this.something = "something";
+  }
 }
 
 export default __bootstrap;
