@@ -1,6 +1,9 @@
+# What is this.
+
+Really simple webapp bootstrapper for MYSELF.
 
 
-# Recommended Global NPM package
+# Recommended Global NPM packages
 
     npm install -g gulp-cli typescript tslint typings
 
@@ -22,6 +25,6 @@ Then Do Your Thing.
 - pack
 
 
-*Build*
+*Building Production Distribution Manually*
 
     npx gulp pack --mode production
