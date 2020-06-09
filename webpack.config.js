@@ -25,7 +25,7 @@ let conf = {
   })(),
 
   output: {
-    path: path.resolve(__dirname, C.build.DIST_DIR),
+    path: path.resolve(__dirname, C.build.DESTINATION),
     filename: "[name].js"
   },
 

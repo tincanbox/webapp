@@ -37,7 +37,7 @@ function bind_config(type, ...cbs){
 
 function generate_src_list(C, glob_type){
   return (Object.keys(C.build.ENTRY).map((k) => {
-      return (C.build.ENTRY[k] + (glob_type ? ("/" + C.build.ASSET_GLOB[glob_type.toUpperCase()]) : ""));
+      return (C.build.ENTRY[k][0] + (glob_type ? ("/" + C.build.ASSET_GLOB[glob_type.toUpperCase()]) : ""));
     })).concat(C.build.EXCLUDE.map((r) => ('!**/' + r + '/**/*'))).filter(r => r);
 }
 
@@ -63,7 +63,7 @@ console.log("CLI arg", arg);
 
 gulp.task('clean', bind_config("series",
   (C) => {
-    return del.sync([C.build.DIST_DIR]);
+    return del.sync([C.build.DESTINATION]);
   })
 );
 
@@ -71,7 +71,7 @@ gulp.task("server", bind_config("series",
   (C) => {
     browsersync({
       server: {
-        baseDir: C.build.DIST_DIR
+        baseDir: C.build.DESTINATION
       }
     });
   })
@@ -94,7 +94,7 @@ gulp.task('bundle-webpack', bind_config("parallel",
     let wcf = webpack_config_factory(arg);
     return gulp.src(generate_src_list(C))
       .pipe(webpack_stream(wcf))
-      .pipe(gulp.dest(C.build.DIST_DIR))
+      .pipe(gulp.dest(C.build.DESTINATION))
   })
 );
 
@@ -110,7 +110,7 @@ gulp.task('bundle-style', bind_config("parallel",
       .pipe(gulp_rename({extname: '.min.css'}))
       .pipe(gulp_clean_css())
       .pipe(gulp_sourcemaps.write())
-      .pipe(gulp.dest(C.build.DIST_DIR));
+      .pipe(gulp.dest(C.build.DESTINATION));
   })
 );
 

@@ -12,10 +12,12 @@ module.exports = {
     // Adjust src/dist path accordingly.
     // bootstrap: "src" means...
     // glob(./src/*.js),or .ts is an entry point.
+    // EntryName: [ FROM:string, TO:string ]
     ENTRY: {
       "bootstrap": "./src"
     },
-    DIST_DIR: "dist",
+
+    DESTINATION: "./dist",
 
     // Gulp-GLOB and Webpack.exclude, both uses this.
     EXCLUDE: [
