@@ -37,7 +37,7 @@ function bind_config(type, ...cbs){
 
 function generate_src_list(C, glob_type){
   return (Object.keys(C.build.ENTRY).map((k) => {
-      return (C.build.ENTRY[k][0] + (glob_type ? ("/" + C.build.ASSET_GLOB[glob_type.toUpperCase()]) : ""));
+      return (C.build.ENTRY[k] + (glob_type ? ("/" + C.build.ASSET_GLOB[glob_type.toUpperCase()]) : ""));
     })).concat(C.build.EXCLUDE.map((r) => ('!**/' + r + '/**/*'))).filter(r => r);
 }
 
@@ -70,6 +70,7 @@ gulp.task('clean', bind_config("series",
 gulp.task("server", bind_config("series",
   (C) => {
     browsersync({
+      port: 3033,
       server: {
         baseDir: C.build.DESTINATION
       }
@@ -79,6 +80,7 @@ gulp.task("server", bind_config("series",
 
 gulp.task('watch', bind_config("series",
   (C) => {
+    gulp.watch(generate_src_list(C, 'template'), gulp.series('bundle-webpack'));
     gulp.watch(generate_src_list(C, 'script'), gulp.series('bundle-webpack'));
     // watching .scss, .sass, .css files
     gulp.watch(generate_src_list(C, 'style'), gulp.series('bundle-style'));
@@ -120,4 +122,4 @@ gulp.task('bundle-style', bind_config("parallel",
 
 gulp.task('build', gulp.parallel('bundle-webpack', 'bundle-style'));
 gulp.task('pack', gulp.series('clean', 'build'));
-gulp.task('default', gulp.series('pack', 'watch'));
+gulp.task('default', gulp.series('pack', 'watch', 'server'));

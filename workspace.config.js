@@ -28,6 +28,7 @@ module.exports = {
     ],
 
     ASSET_GLOB: {
+      TEMPLATE: "**/*.{html,htm,vue}",
       STYLE: "**/*.{scss,sass,css}",
       SCRIPT: "**/*.{ts,js}",
     }
