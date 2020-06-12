@@ -19,6 +19,10 @@ module.exports = {
 
     DESTINATION: "./dist",
 
+    PAGE: [
+      "./src/index.html"
+    ],
+
     // Gulp-GLOB and Webpack.exclude, both uses this.
     EXCLUDE: [
       'node_modules',

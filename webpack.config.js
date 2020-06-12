@@ -1,7 +1,7 @@
 const path = require('path');
 const glob = require('glob');
 
-const HtmlWebpackPlugin = require('html-webpack-plugin')
+const html_webpack_plug = require('html-webpack-plugin');
 
 const C = (() => {
   return require("./workspace.config.js");
@@ -43,18 +43,11 @@ let conf = {
 
   plugins: [
     new (require('vue-loader/lib/plugin'))(),
-  ].concat(
-    // htmls
-    (() => {
-      let r = [];
-      for(let k in C.build.ENTRY) r = r.concat(glob.sync(C.build.ENTRY[k] + "/" + C.build.ASSET_GLOB.TEMPLATE));
-      return r.map((s) => {
-        return new HtmlWebpackPlugin({
-          template: s
-        })
-      });
-    })()
-  ),
+  ].concat((() => {
+    return C.build.PAGE.map((p) => {
+      return new html_webpack_plug({ template: p })
+    })
+  })()),
 
   module: {
     rules: [
