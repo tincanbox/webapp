@@ -72,7 +72,7 @@ module.exports = {
           {
             loader: 'file-loader',
             options: {
-              name: '[path][name].[ext]',
+              name: '[path][hash].[ext]',
               outputPath: (p) => {
                 return p.replace(new RegExp("^" + C.ENTRY), "");
               },
@@ -87,7 +87,7 @@ module.exports = {
           {
             loader: 'file-loader',
             options: {
-              name: '[path][name].[ext]',
+              name: '[path][hash].[ext]',
               outputPath: (p) => {
                 return p.replace(new RegExp("^" + C.ENTRY), "");
               },
