@@ -87,7 +87,10 @@ module.exports = {
           {
             loader: 'file-loader',
             options: {
-              name: 'images/[name].[ext]'
+              name: '[path][name].[ext]',
+              outputPath: (p) => {
+                return p.replace(new RegExp("^" + C.ENTRY), "");
+              },
             }
           }
         ]
@@ -98,11 +101,10 @@ module.exports = {
         use: [
           //{ loader: 'style-loader', options: { injectType: 'linkTag' } },
           { loader: MiniCssExtractPlugin.loader },
-          //{ loader: 'file-loader' },
           {
             loader: 'css-loader',
             options: {
-              url: false
+              //url: false
             }
           },
           'sass-loader',
