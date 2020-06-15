@@ -1,6 +1,14 @@
 # What is this.
 
-Really simple webapp bootstrapper for MYSELF.
+Really simple webapp bootstrapper for MYSELF.  
+
+I said "MYSELF".
+
+
+# Requirements
+
+node
+npm (with npx)
 
 
 # Recommended Global NPM packages
@@ -10,21 +18,37 @@ Really simple webapp bootstrapper for MYSELF.
 
 # Usage
 
+Just install all dev-dependencies with `npm install`.
+
     npm install
 
+Then Do Your Thing.  
+`workspace.config.js` includes basic build options. Edit below configs appropriately.
 
-Then Do Your Thing.
+As default, `./src` is treaded as working-space.
+
+- gulpfile.js
+- workspace.config.js
+- workspace.helper.js
+- webpack.config.js
+- webpack.config.module.js
+- webpack.config.factory.js
+
 
 
 ## Available tasks
 
-- watch
-- server
-- build
-- clean
-- pack
+Use like `npx gulp YOUR_TASK_NAME`.
+
+- build -- Builds all.
+- clean -- Cleans up CONFIG.ENTRY directory.
+- pack -- `clean` and `build`
+- watch -- Starts watching CONFIG.ASSET_GLOBs.
+- server -- Starts up local web-dev-server.
 
 
-*Building Production Distribution Manually*
+## Building Production Distribution
+
+Just add `--mode production` part to your commands.
 
     npx gulp pack --mode production

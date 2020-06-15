@@ -7,36 +7,52 @@
 
 module.exports = {
 
-  build: {
+  // Adjust src/dist path accordingly.
+  // glob(./src/*.js),or .ts is an entry point.
+  ENTRY: "./src",
 
-    // Adjust src/dist path accordingly.
-    // bootstrap: "src" means...
-    // glob(./src/*.js),or .ts is an entry point.
-    // EntryName: [ FROM:string, TO:string ]
-    ENTRY: {
-      "bootstrap": "./src"
+  DEST: "./dist",
+
+  // Pages Generator
+  PAGE: {
+    BASEDIR: "template",
+    DEFAULT: {
+      // Default `data` will be merged with each TARGET page's data.
+      data: {
+        title: "WEBAPP"
+      }
     },
-
-    DESTINATION: "./dist",
-
-    PAGE: [
-      "./src/index.html"
-    ],
-
-    // Gulp-GLOB and Webpack.exclude, both uses this.
-    EXCLUDE: [
-      'node_modules',
-      'vendor',
-      'log',
-      'cache'
-    ],
-
-    ASSET_GLOB: {
-      TEMPLATE: "**/*.{html,htm,vue}",
-      STYLE: "**/*.{scss,sass,css}",
-      SCRIPT: "**/*.{ts,js}",
+    TARGET: {
+      // If you dont use HTML generator, just remove this entry.
+      "index.njk": {
+        data: {}
+      }
     }
+  },
 
+  // As default, Nunjucks and Vue template syntax is conflicted with tag opener & closer.
+  // If you need to write Vue template in Nunjucks templates, change this tag confs.
+  TEMPLATE: {
+    CACHE: false,
+    TAG_OPEN: "{",
+    TAG_CLOSE: "}"
+  },
+
+  // Gulp-GLOB and Webpack.exclude, both use this.
+  EXCLUDE: [
+    'node_modules',
+    '/vendor/',
+    '/log/',
+    '.log$',
+    '/cache/'
+  ],
+
+  ASSET_GLOB: {
+    TEMPLATE: "**/*.{njk,hbs}",
+    HTML: "**/*.{html,htm}",
+    VIEW: "**/*.{vue,react}",
+    STYLE: "**/*.{scss,sass,css}",
+    SCRIPT: "**/*.{ts,js}",
   }
 
 };
