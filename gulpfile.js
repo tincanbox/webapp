@@ -127,7 +127,6 @@ function define_webpack_build(){
 
 function define_browsersync(){
   return (C, done) => {
-    console.log("This Browser uses the part of webpack.config's devServer property.");
     browsersync.init({
       port: WCF.devServer.port,
       reloadOnRestart: true,
@@ -135,7 +134,18 @@ function define_browsersync(){
         baseDir: C.DEST
       }
     });
+    console.log("This Browser uses the part of webpack.config's devServer property.");
     return done();
+  }
+}
+
+function define_draw_border(){
+  return (done) => {
+    console.log("");
+    console.log("==================== CHANGES DETECTED ====================");
+    console.log(new Date());
+    console.log("");
+    done();
   }
 }
 
@@ -146,18 +156,18 @@ function define_observe(){
     // Thus, after 2nd time builds, webpack.watch won't recompile included files.
     // Also Pug has similar problems like described above.
     gulp.watch(generate_src_list(C, 'template'))
-      .on('change', gulp.series('clean-all-page', 'webpack:build', browsersync.reload));
+      .on('change', gulp.series(define_draw_border(), 'clean-all-page', 'webpack:build', browsersync.reload));
 
     // Other files (just redirects all changes to webpack)
     // See workspace.config for further details.
     gulp.watch(generate_src_list(C, 'html'))
-      .on('change', gulp.series('webpack:build', browsersync.reload));
+      .on('change', gulp.series(define_draw_border(), 'webpack:build', browsersync.reload));
     gulp.watch(generate_src_list(C, 'view'))
-      .on('change', gulp.series('webpack:build', browsersync.reload));
+      .on('change', gulp.series(define_draw_border(), 'webpack:build', browsersync.reload));
     gulp.watch(generate_src_list(C, 'script'))
-      .on('change', gulp.series('webpack:build', browsersync.reload));
+      .on('change', gulp.series(define_draw_border(), 'webpack:build', browsersync.reload));
     gulp.watch(generate_src_list(C, 'style'))
-      .on('change', gulp.series('webpack:build', browsersync.reload));
+      .on('change', gulp.series(define_draw_border(), 'webpack:build', browsersync.reload));
     return done();
   }
 }

@@ -40,15 +40,23 @@ As default, `./src` is treaded as working-space.
 
 Use like `npx gulp YOUR_TASK_NAME`.
 
+### Basic
 - build -- Builds all.
-- clean -- Cleans up CONFIG.ENTRY directory.
-- pack -- `clean` and `build`
-- watch -- Starts watching CONFIG.ASSET_GLOBs.
-- server -- Starts up local web-dev-server.
+- browser -- Starts browser-sync with server.
+- observe -- Starts observing file-changes with `gulp.watch`
+- clean -- Cleans up CONFIG.DEST directory.
+- pack -- `clean` then `build`
+- watch -- `pack` then `observe`
+
+### Webpack
+- webpack:server
+- webpack:watch 
+- webpack:build 
 
 
 ## Building Production Distribution
 
 Just add `--mode production` part to your commands.
+Passes `mode` to the webpack instance.
 
-    npx gulp pack --mode production
+    npx gulp --mode production
