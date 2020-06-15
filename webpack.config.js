@@ -11,7 +11,7 @@ let conf = Object.assign({
 
   entry: (() => {
     let entries = {};
-    let pts = glob.sync(C.ENTRY + "/*.{js,ts}");
+    let pts = glob.sync("./" + C.ENTRY + "/*.{js,ts}");
     for(let p of pts){
       let pinf = path.parse(p);
       entries[pinf.name] = p;
@@ -49,13 +49,14 @@ let conf = Object.assign({
   },
 
   resolve: {
-    modules: [path.resolve(__dirname, C.ENTRY), "node_modules"],
+    modules: [path.join(__dirname, C.ENTRY), "node_modules"],
     extensions: [
       '.ts', '.tsx', '.js', '.vue'
     ],
     alias: {
       // vue-template-compiler
       vue$: 'vue/dist/vue.esm.js',
+      //asset: path.resolve(__dirname + "/" + C.ENTRY + "/asset")
     },
   },
 

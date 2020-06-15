@@ -3,7 +3,7 @@ const C = require("./workspace.config.js");
 module.exports = {
 
   nunjucks: (nunjucks, o) => {
-    nunjucks.configure(C.ENTRY + "/" + C.PAGE.BASEDIR, {
+    nunjucks.configure("./" + C.ENTRY + "/" + C.PAGE.BASEDIR, {
       noCache: !C.TEMPLATE.CACHE,
       tags: {
         blockStart: C.TEMPLATE.TAG_OPEN + '%',

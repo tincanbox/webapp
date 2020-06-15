@@ -23,7 +23,7 @@ module.exports = {
       // Options similar to the same options in webpackOptions.output
       // both options are optional
       //filename: '[name].css',
-      chunkFilename: '[id].css',
+      //chunkFilename: '[id].css',
     })
   ].concat(
     // Pages
@@ -33,7 +33,7 @@ module.exports = {
       for(let k in C.PAGE.TARGET){
         r.push(new html_webpack_plugin({
           hash: true,
-          template: path.resolve(C.ENTRY + "/" + k),
+          template: path.resolve(__dirname + "/" + C.ENTRY + "/" + k),
           minify: {
             html5: true,
             collapseWhitespace: true,
@@ -68,12 +68,29 @@ module.exports = {
       {
         test: /\.(jpe?g|png|gif|svg)$/i,
         exclude: [].concat(exclude_reg_list),
-        loader: 'file-loader'
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: '[path][name].[ext]',
+              outputPath: (p) => {
+                return p.replace(new RegExp("^" + C.ENTRY), "");
+              },
+            }
+          }
+        ]
       },
       {
         test: /\.(woff|woff2|ttf|eot)$/,
         exclude: [].concat(exclude_reg_list),
-        loader: 'file-loader'
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: 'images/[name].[ext]'
+            }
+          }
+        ]
       },
       {
         test: /\.s[ac]ss$/i,
@@ -82,7 +99,12 @@ module.exports = {
           //{ loader: 'style-loader', options: { injectType: 'linkTag' } },
           { loader: MiniCssExtractPlugin.loader },
           //{ loader: 'file-loader' },
-          'css-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              url: false
+            }
+          },
           'sass-loader',
         ],
       },

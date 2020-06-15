@@ -9,9 +9,9 @@ module.exports = {
 
   // Adjust src/dist path accordingly.
   // glob(./src/*.js),or .ts is an entry point.
-  ENTRY: "./src",
+  ENTRY: "src",
 
-  DEST: "./dist",
+  DEST: "dist",
 
   // Pages Generator
   PAGE: {

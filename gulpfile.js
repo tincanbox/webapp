@@ -49,7 +49,7 @@ function bind_config(type, ...cbs){
 }
 
 function generate_src_list(C, glob_type){
-  let inc = C.ENTRY + (glob_type ? ("/" + (glob_type == "*" ? "**/*" : C.ASSET_GLOB[glob_type.toUpperCase()]) ) : "/**/*");
+  let inc = "./" + C.ENTRY + (glob_type ? ("/" + (glob_type == "*" ? "**/*" : C.ASSET_GLOB[glob_type.toUpperCase()]) ) : "/**/*");
   let exc = C.EXCLUDE.map((r) => ('!**/' + r + '/**/*'));
   return [].concat(inc, exc).filter(r => r);
 }
@@ -131,7 +131,7 @@ function define_browsersync(){
       port: WCF.devServer.port,
       reloadOnRestart: true,
       server: {
-        baseDir: C.DEST
+        baseDir: "./" + C.DEST
       }
     });
     console.log("This Browser uses the part of webpack.config's devServer property.");
