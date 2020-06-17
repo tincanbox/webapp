@@ -4,6 +4,7 @@ const path = require('path');
 const C = require("./workspace.config.js");
 const H = require('./workspace.helper.js');
 
+
 // Plugins
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
@@ -15,7 +16,7 @@ const nunjucks = H.nunjucks(require('nunjucks'), {});
 // Misc.
 let exclude_reg_list = C.EXCLUDE.map((ex) => new RegExp(ex));
 
-module.exports = {
+module.exports = (WCF) => { return {
 
   plugins: [
     new VueLoaderPlugin(),
@@ -30,9 +31,10 @@ module.exports = {
     (() => {
       let r = [];
       let d = C.PAGE.DEFAULT;
-      for(let k in C.PAGE.TARGET){
+      for (let k in C.PAGE.TARGET) {
         r.push(new html_webpack_plugin({
           hash: true,
+          //favicon: C.ENTRY + "/" + C.PAGE.FAVICON,
           template: path.resolve(__dirname + "/" + C.ENTRY + "/" + k),
           minify: {
             html5: true,
@@ -61,7 +63,8 @@ module.exports = {
         test: /\.vue$/,
         exclude: [].concat(exclude_reg_list),
         use: [
-          { loader: 'vue-loader'
+          {
+            loader: 'vue-loader'
           },
         ]
       },
@@ -72,7 +75,8 @@ module.exports = {
           {
             loader: 'file-loader',
             options: {
-              name: '[path][hash].[ext]',
+              // DONT use hash if you want to use HTML templating.
+              name: '[path][name].[ext]',
               outputPath: (p) => {
                 return p.replace(new RegExp("^" + C.ENTRY), "");
               },
@@ -87,7 +91,8 @@ module.exports = {
           {
             loader: 'file-loader',
             options: {
-              name: '[path][hash].[ext]',
+              // DONT use hash if you want to use HTML templating.
+              name: '[path][name].[ext]',
               outputPath: (p) => {
                 return p.replace(new RegExp("^" + C.ENTRY), "");
               },
@@ -162,7 +167,7 @@ module.exports = {
             options: {
               preprocessor: (content, loader) => {
                 try {
-                  console.log("[Nunjucks] processing ", loader._module.resource);
+                  console.log("[WORKSPACE][Nunjucks]", "processing ", loader._module.resource);
                   let df = C.PAGE.DEFAULT;
                   let ov = {};
                   for (let k in C.PAGE.TARGET) {
@@ -172,7 +177,10 @@ module.exports = {
                       break;
                     }
                   }
-                  return nunjucks.renderString(content, Object.assign({}, df.data || {}, ov.data || {}));
+                  return nunjucks.renderString(content, Object.assign({
+                    WORKSPACE_CONFIG: C,
+                    WEBPACK_CONFIG: WCF
+                  }, df.data || {}, ov.data || {}));
                 } catch (e) {
                   loader.emitError(e);
                   return content;
@@ -186,4 +194,5 @@ module.exports = {
     ] // Rules END
 
   }
-}
+
+}}

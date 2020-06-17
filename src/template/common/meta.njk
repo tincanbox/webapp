@@ -1,7 +1,9 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta charset="utf-8">
+
 <title>{{ title }}</title>
-<meta name="description" content="">
+<meta name="description" content="{{ description }}">
+
 <meta name="author" content="">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -11,8 +13,8 @@
 <![endif]-->
 
 <!-- YOUR ENTRIES -->
-<link rel="icon" href="https://raw.githubusercontent.com/webpack/media/master/logo/icon-square-big.png">
-<link rel="shortcut icon" href="https://raw.githubusercontent.com/webpack/media/master/logo/icon-square-big.png">
+<link rel="icon" href="{{ WEBPACK_CONFIG.output.publicPath }}/{{ WORKSPACE_CONFIG.PAGE.FAVICON }}">
+<link rel="shortcut icon" href="{{ WEBPACK_CONFIG.output.publicPath }}/{{ WORKSPACE_CONFIG.PAGE.FAVICON }}">
 <!-- BootstrapCSS -->
 <script
   src="https://code.jquery.com/jquery-3.5.1.slim.min.js"

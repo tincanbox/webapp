@@ -1,9 +1,10 @@
 const path = require('path');
 const glob = require('glob');
+const fs = require('fs');
 
 const C = require("./workspace.config.js");
 
-let conf = Object.assign({
+let conf = {
 
   mode: 'development',
 
@@ -22,6 +23,7 @@ let conf = Object.assign({
   output: {
     path: path.resolve(__dirname, C.DEST),
     filename: "[name].js",
+    publicPath: "."
   },
 
   optimization: {
@@ -74,6 +76,15 @@ let conf = Object.assign({
     poll: 1000
   }
 
-}, require('./webpack.config.module.js'))
+};
+
+conf = Object.assign(conf, require('./webpack.config.module.js')(conf), require('./webpack.config.local.js')(conf))
+
+// Asset List
+let srcm = new RegExp("^" + C.ENTRY.replace(/(^\/|\/$)/, "") + "/");
+let srcs = glob.sync(C.ENTRY + "/**/*.{html,htm,xml,yml,jpg,jpeg,png,gif,tiff,svg,woff,woff2,ttf,eot,mp3,mp4,m4a,wav,zip}")
+  .map((r) => { return r.replace(srcm, ""); });
+fs.writeFileSync(C.ENTRY + "/.asset.list.js", 'export default ' + JSON.stringify(srcs));
+console.log("[WORKSPACE]", "Listing up assets... ", srcs);
 
 module.exports = conf;

@@ -1,7 +1,10 @@
-// Webpack bootstrap file.
+// Webpack bootstrap files.
 
+import './asset/favicon.png'; // <- should be same as workspace.config
 import './asset/style/base.scss';
-import ignition from './asset/script/main';
 
-const app = new ignition();
-app.init();
+// Your main script.
+import combustible from './asset/script/main';
+
+const Bon = new combustible();
+Bon.fire();

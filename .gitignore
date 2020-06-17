@@ -3,3 +3,5 @@ package-lock.json
 log
 cache
 dist
+
+.asset.list.js

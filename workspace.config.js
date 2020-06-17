@@ -9,6 +9,7 @@ module.exports = {
 
   // Adjust src/dist path accordingly.
   // glob(./src/*.js),or .ts is an entry point.
+  // DONT put "./" thing.
   ENTRY: "src",
 
   DEST: "dist",
@@ -16,10 +17,12 @@ module.exports = {
   // Pages Generator
   PAGE: {
     BASEDIR: "template",
+    FAVICON: "asset/favicon.png",
     DEFAULT: {
       // Default `data` will be merged with each TARGET page's data.
       data: {
-        title: "WEBAPP"
+        title: "WEBAPP",
+        description: "This is a sample."
       }
     },
     TARGET: {

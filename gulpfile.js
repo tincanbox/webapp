@@ -27,7 +27,7 @@ const arg = (li => {
   return arg;
 })(process.argv);
 
-console.log("CLI args", arg);
+console.log("[WORKSPACE]", "CLI args", arg);
 const WCF = webpack_config_factory(arg);
 
 
