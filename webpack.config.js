@@ -84,7 +84,7 @@ conf = Object.assign(conf, require('./webpack.config.module.js')(conf), require(
 let srcm = new RegExp("^" + C.ENTRY.replace(/(^\/|\/$)/, "") + "/");
 let srcs = glob.sync(C.ENTRY + "/**/*.{html,htm,xml,yml,jpg,jpeg,png,gif,tiff,svg,woff,woff2,ttf,eot,mp3,mp4,m4a,wav,zip}")
   .map((r) => { return r.replace(srcm, ""); });
-fs.writeFileSync(C.ENTRY + "/.asset.list.js", 'export default ' + JSON.stringify(srcs));
+fs.writeFileSync(C.ENTRY + "/.asset.list.js", "// generated in webpack.config\nexport default " + JSON.stringify(srcs));
 console.log("[WORKSPACE]", "Listing up assets... ", srcs);
 
 module.exports = conf;
