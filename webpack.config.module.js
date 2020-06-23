@@ -34,6 +34,7 @@ module.exports = (WCF) => { return {
       for (let k in C.PAGE.TARGET) {
         r.push(new html_webpack_plugin({
           hash: true,
+          // Just include favicon from your bundle.js file.
           //favicon: C.ENTRY + "/" + C.PAGE.FAVICON,
           template: path.resolve(__dirname + "/" + C.ENTRY + "/" + k),
           minify: {
