@@ -67,6 +67,8 @@ let conf = {
     compress: true,
     inline: true,
     hot: false,
+    https: false,
+    host: "localhost",
     port: 3030
   },
 

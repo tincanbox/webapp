@@ -80,10 +80,10 @@ function define_webpack_server() {
     console.log(WCF.devServer);
     let compiler = webpack(WCF);
     new webpack_dev_server(compiler, WCF.devServer)
-      .listen(WCF.devServer.port, "localhost", function (err) {
+      .listen(WCF.devServer.port, WCF.devServer.host, function (err) {
         if (err) throw new gulp_util.PluginError("webpack-dev-server", err);
         // Server listening
-        gulp_util.log("[webpack-dev-server]", "http://localhost:" + WCF.devServer.port);
+        gulp_util.log("[webpack-dev-server]", WCF.devServer.host + ":" + WCF.devServer.port);
       });
   }
 }
