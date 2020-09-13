@@ -132,6 +132,7 @@ module.exports = (WCF) => { return {
           {
             loader: 'ts-loader',
             options: {
+              appendTsSuffixTo: [/\.vue$/]
               // If your project takes too long to build with type-checkings.
               //transpileOnly: true,
             }
@@ -158,7 +159,7 @@ module.exports = (WCF) => { return {
       },
       //========================================
 
-      // Template
+      // Local Template
       {
         test: /\.(njk)$/,
         exclude: [].concat(exclude_reg_list),
